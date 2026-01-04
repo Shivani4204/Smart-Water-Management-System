@@ -160,17 +160,15 @@ Verify sensor orientation (arrow shows flow direction)
 
 🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-👨‍💻 Author
-Your Name
 
-GitHub: @yourusername
-Email: your.email@example.com
+👨‍💻 Author
+Shivani odedra
+
+GitHub: @Shivani4024
+Email: shivaniodedra60@gmail.com
 
 🙏 Acknowledgments
 
-Stony Brook University - For project inspiration and support
 ESP32 Community - For extensive documentation
 Arduino Community - For sensor libraries
 
