@@ -1,0 +1,67 @@
+
+
+Sensor Calibration and Logic Determination
+This document details the calibration procedures and empirical data used to set the operational thresholds for the Smart Water Management System.
+
+1. Current Sensor (ACS712) Calibration
+The most critical diagnostic in this system is distinguishing between "Water Load" and "Dry Running" (Air).
+
+Methodology
+
+We measured the Raw Analog-to-Digital Converter (ADC) values under two distinct physical states:
+
+No-Load/Dry Run: Motor spinning in open air.
+
+Full-Load/Water: Motor pumping water through the 12V system.
+
+Empirical Data
+
+Physical State	Observed Raw ADC Value
+Air (Dry Run)	3378
+Water (Under Load)	3337
+Calibration Logic
+
+Based on these readings, the SYSTEM_THRESHOLD was set at 3300.
+
+Dry Detection: If Amp>3300, the system identifies the lack of fluid resistance (Air).
+
+Load Detection: If Amp<2700, the system confirms the motor is working against fluid mass (Water).
+
+2. Ultrasonic Level Sensor (JSN-SR04T)
+The system uses a 10µs trigger pulse to calculate distance based on the speed of sound (343 m/s).
+
+Operational Setpoints
+
+High Water Mark (3.0 cm): The distance from the sensor to the water surface when the tank is at maximum capacity.
+
+Low Water Mark (17.0 cm): The distance when the tank requires a refill.
+
+Environmental Correction
+
+During testing, a 0.00 cm error was observed due to moisture ingress on the sensor mesh. A software Timeout of 30,000µs was implemented in the pulseIn() function to prevent the processor from hanging during sensor failure.
+
+3. Vibration Sensor (SW-420)
+The vibration sensor serves as a hardware verification that the motor is physically rotating.
+
+Adjustment Procedure
+
+The motor was initiated via the 'y' Serial command.
+
+The onboard potentiometer was rotated clockwise until the Status LED transitioned from OFF to flickering.
+
+Sensitivity was verified by ensuring the Vib: ACT status appears only when the motor is physically energized.
+
+4. Air/Pressure Sensor (HX710B)
+The air sensor provides a redundant check for the current sensor.
+
+Logic High (YES): Pressure detected in the line (typically during dry-run air compression).
+
+Logic Low (NO): Standard atmospheric pressure or fluid flow.
+
+5. Summary of System Constants
+These values are hard-coded into config.h for system-wide consistency:
+
+C++
+const float SpeedOfSound = 0.0343; // cm/us
+const int   DryThreshold = 3300;   // ADC units
+const int   TimeoutValue = 30000;  // microseconds
